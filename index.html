@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AETHER — Sound, made spatial</title>
+<meta name="description" content="AETHER — instruments engineered to dissolve the boundary between you and the music." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@300;400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- WebGL canvas + atmosphere -->
+<canvas id="webgl"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div class="cursor-glow"></div>
+
+<!-- nav -->
+<header class="nav">
+  <a class="brand" href="#hero">AETHER<span>®</span></a>
+  <div class="nav-links">
+    <a href="#manifesto">Manifesto</a>
+    <a href="#products">Products</a>
+    <a href="#craft">Craft</a>
+  </div>
+  <div class="nav-meta">SPATIAL AUDIO — 2026</div>
+</header>
+
+<!-- scroll progress -->
+<div class="progress"><div class="progress-bar"></div></div>
+
+<main>
+  <!-- hero -->
+  <section class="section hero" id="hero">
+    <p class="eyebrow reveal" data-delay="0">AETHER · SPATIAL AUDIO</p>
+    <h1 class="display reveal" data-delay="100">Sound,<br />made <em>spatial.</em></h1>
+    <p class="sub reveal" data-delay="260">Instruments engineered to dissolve the boundary between you and the music.</p>
+    <p class="scroll-hint reveal" data-delay="460">SCROLL TO ENTER</p>
+  </section>
+
+  <!-- manifesto -->
+  <section class="section statement" id="manifesto">
+    <div class="section-label reveal"><span>01</span> — MANIFESTO</div>
+    <p class="statement-text reveal" data-delay="120">We don't make headphones.<br />We shape the air<br /><em>around</em> sound.</p>
+    <p class="statement-sub reveal" data-delay="280">AETHER exists for the moment a track stops being a file and becomes a room — a place you can stand inside.</p>
+  </section>
+
+  <!-- products -->
+  <section class="section products" id="products">
+    <div class="section-label reveal"><span>02</span> — THE LINE</div>
+    <div class="product-list">
+      <article class="product reveal" data-delay="0">
+        <div class="product-index">01</div>
+        <h3 class="product-name">NOVA 01</h3>
+        <p class="product-desc">Adaptive spatial headphones. A driver array that tracks your head, not your screen.</p>
+        <div class="product-tag">HEADPHONES</div>
+      </article>
+      <article class="product reveal" data-delay="120">
+        <div class="product-index">02</div>
+        <h3 class="product-name">ORBIT</h3>
+        <p class="product-desc">Omnidirectional speaker. 360° of phase-corrected sound, tuned in a sphere.</p>
+        <div class="product-tag">SPEAKER</div>
+      </article>
+      <article class="product reveal" data-delay="240">
+        <div class="product-index">03</div>
+        <h3 class="product-name">PULSE</h3>
+        <p class="product-desc">Bone-conduction earbuds. Open ears, closed loop. Awareness without isolation.</p>
+        <div class="product-tag">EARBUDS</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- craft -->
+  <section class="section craft" id="craft">
+    <div class="section-label reveal"><span>03</span> — CRAFT</div>
+    <p class="statement-text reveal" data-delay="120">Every driver is measured,<br />matched, and tuned<br />by hand.</p>
+    <p class="statement-sub reveal" data-delay="280">Ten years. Three engineers. One obsession.</p>
+  </section>
+
+  <!-- cta -->
+  <section class="section cta" id="cta">
+    <h2 class="cta-title reveal">Enter<br />the field.</h2>
+    <form class="cta-form reveal" data-delay="160" onsubmit="return false;">
+      <input type="email" placeholder="your@email.com" aria-label="Email" />
+      <button type="submit">Join the waitlist</button>
+    </form>
+    <footer class="footer reveal" data-delay="320">
+      <span>© 2026 AETHER</span>
+      <div class="socials">
+        <a href="#">Instagram</a><a href="#">X</a><a href="#">TikTok</a>
+      </div>
+    </footer>
+  </section>
+</main>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module" src="main.js"></script>
+</body>
+</html>
