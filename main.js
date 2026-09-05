@@ -2,10 +2,9 @@
 import * as THREE from 'three';
 
 /* ============================================================
-   AETHER — WebGL particle field
-   A Lusion-style cinematic background: a flowing particle mass
-   driven by simplex noise, camera dives through on scroll,
-   palette shifts per section.
+   ZOUWENSHENG — WebGL particle field + cursor swarm
+   A flowing particle mass (simplex noise) that parts around the
+   cursor, plus an orbiting particle swarm that follows the mouse.
    ============================================================ */
 
 const canvas = document.getElementById('webgl');
@@ -19,42 +18,8 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.set(0, 0, 9);
 
-/* ---------- particles ---------- */
-const COUNT = isMobile ? 30000 : 60000;
-const positions = new Float32Array(COUNT * 3);
-const seeds = new Float32Array(COUNT);
-const sizes = new Float32Array(COUNT);
-
-for (let i = 0; i < COUNT; i++) {
-  positions[i * 3 + 0] = (Math.random() - 0.5) * 20;
-  positions[i * 3 + 1] = (Math.random() - 0.5) * 11;
-  positions[i * 3 + 2] = (Math.random() - 0.5) * 13;
-  seeds[i] = Math.random();
-  sizes[i] = Math.random() * 2.2 + 0.6;
-}
-
-const geometry = new THREE.BufferGeometry();
-geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-geometry.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1));
-geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
-
-const uniforms = {
-  uTime: { value: 0 },
-  uPixelRatio: { value: renderer.getPixelRatio() },
-  uColorA: { value: new THREE.Color('#2b2bff') },
-  uColorB: { value: new THREE.Color('#7ee8ff') },
-  uColorC: { value: new THREE.Color('#ffb27a') },
-  uMix: { value: 0 },
-};
-
-const VERT = /* glsl */`
-  uniform float uTime;
-  uniform float uPixelRatio;
-  attribute float aSeed;
-  attribute float aSize;
-  varying float vSeed;
-  varying float vAlpha;
-
+/* ---------- simplex noise 3D (shared GLSL) ---------- */
+const NOISE = `
   vec3 mod289(vec3 x){ return x - floor(x * (1.0/289.0)) * 289.0; }
   vec4 mod289(vec4 x){ return x - floor(x * (1.0/289.0)) * 289.0; }
   vec4 permute(vec4 x){ return mod289(((x*34.0)+1.0)*x); }
@@ -101,20 +66,67 @@ const VERT = /* glsl */`
     m = m * m;
     return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
   }
+`;
+
+/* ---------- main particle field ---------- */
+const COUNT = isMobile ? 30000 : 60000;
+const positions = new Float32Array(COUNT * 3);
+const seeds = new Float32Array(COUNT);
+const sizes = new Float32Array(COUNT);
+
+for (let i = 0; i < COUNT; i++) {
+  positions[i * 3 + 0] = (Math.random() - 0.5) * 20;
+  positions[i * 3 + 1] = (Math.random() - 0.5) * 11;
+  positions[i * 3 + 2] = (Math.random() - 0.5) * 13;
+  seeds[i] = Math.random();
+  sizes[i] = Math.random() * 2.2 + 0.6;
+}
+
+const geometry = new THREE.BufferGeometry();
+geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+geometry.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1));
+geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+
+const mouseLocal = new THREE.Vector3(0, 9999, 0);
+
+const uniforms = {
+  uTime: { value: 0 },
+  uPixelRatio: { value: renderer.getPixelRatio() },
+  uColorA: { value: new THREE.Color('#2b2bff') },
+  uColorB: { value: new THREE.Color('#7ee8ff') },
+  uColorC: { value: new THREE.Color('#ffb27a') },
+  uMix: { value: 0 },
+  uMouse: { value: mouseLocal },
+};
+
+const VERT = NOISE + /* glsl */`
+  uniform float uTime;
+  uniform float uPixelRatio;
+  uniform vec3 uMouse;
+  attribute float aSeed;
+  attribute float aSize;
+  varying float vSeed;
+  varying float vAlpha;
 
   void main(){
     vec3 pos = position;
-    float t = uTime * 0.16;
+    float t = uTime * 0.22;
 
     float n1 = snoise(vec3(pos.x * 0.30, pos.y * 0.30, t));
     float n2 = snoise(vec3(pos.x * 0.30 + 4.7, pos.y * 0.30 - 2.1, t * 0.72));
     float flow = n1 * 0.72 + n2 * 0.28;
 
-    pos.x += flow * 0.65;
-    pos.y += snoise(vec3(pos.y * 0.30, pos.z * 0.30, t * 1.1)) * 0.55;
-    pos.z += snoise(vec3(pos.z * 0.30, pos.x * 0.30, t * 0.85)) * 0.55;
+    pos.x += flow * 0.9;
+    pos.y += snoise(vec3(pos.y * 0.30, pos.z * 0.30, t * 1.1)) * 0.75;
+    pos.z += snoise(vec3(pos.z * 0.30, pos.x * 0.30, t * 0.85)) * 0.75;
 
-    pos += pos * 0.03 * sin(t * 1.4 + aSeed * 6.28318);
+    pos += pos * 0.035 * sin(t * 1.4 + aSeed * 6.28318);
+
+    // mouse repel — parts the field around the cursor
+    vec2 diff = pos.xy - uMouse.xy;
+    float dist = length(diff) + 0.001;
+    float strength = smoothstep(2.2, 0.0, dist);
+    pos.xy += (diff / dist) * strength * 1.5;
 
     vec4 mv = modelViewMatrix * vec4(pos, 1.0);
     gl_Position = projectionMatrix * mv;
@@ -160,6 +172,81 @@ const material = new THREE.ShaderMaterial({
 const points = new THREE.Points(geometry, material);
 scene.add(points);
 
+/* ---------- cursor swarm (orbiting particles follow mouse) ---------- */
+const SWARM_COUNT = 260;
+const sAngles = new Float32Array(SWARM_COUNT);
+const sRadii = new Float32Array(SWARM_COUNT);
+const sSpeeds = new Float32Array(SWARM_COUNT);
+const sSizes = new Float32Array(SWARM_COUNT);
+
+for (let i = 0; i < SWARM_COUNT; i++) {
+  sAngles[i] = Math.random() * Math.PI * 2;
+  sRadii[i] = 0.05 + Math.random() * 0.45;
+  sSpeeds[i] = 0.4 + Math.random() * 0.8;
+  sSizes[i] = 0.7 + Math.random() * 1.2;
+}
+
+const swarmGeo = new THREE.BufferGeometry();
+swarmGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(SWARM_COUNT * 3), 3));
+swarmGeo.setAttribute('aAngle', new THREE.BufferAttribute(sAngles, 1));
+swarmGeo.setAttribute('aRadius', new THREE.BufferAttribute(sRadii, 1));
+swarmGeo.setAttribute('aSpeed', new THREE.BufferAttribute(sSpeeds, 1));
+swarmGeo.setAttribute('aSize', new THREE.BufferAttribute(sSizes, 1));
+
+const swarmUniforms = {
+  uTime: { value: 0 },
+  uPixelRatio: { value: renderer.getPixelRatio() },
+  uMouse: { value: new THREE.Vector3(0, 9999, 0) },
+  uColor: { value: new THREE.Color('#a8f0ff') },
+};
+
+const SWARM_VERT = /* glsl */`
+  uniform float uTime;
+  uniform float uPixelRatio;
+  uniform vec3 uMouse;
+  attribute float aAngle;
+  attribute float aRadius;
+  attribute float aSpeed;
+  attribute float aSize;
+  varying float vAlpha;
+
+  void main(){
+    float ang = aAngle + uTime * aSpeed;
+    float r = aRadius * (1.0 + 0.15 * sin(uTime * 0.9 + aAngle));
+    vec3 pos = uMouse + vec3(cos(ang), sin(ang), 0.0) * r;
+    pos.z += sin(uTime * 0.7 + aAngle) * 0.3;
+
+    vec4 mv = modelViewMatrix * vec4(pos, 1.0);
+    gl_Position = projectionMatrix * mv;
+    gl_PointSize = aSize * uPixelRatio * 2.4 * (1.0 / -mv.z);
+    vAlpha = 0.75 * (0.5 + 0.5 * sin(uTime * 2.2 + aAngle));
+  }
+`;
+
+const SWARM_FRAG = /* glsl */`
+  precision highp float;
+  uniform vec3 uColor;
+  varying float vAlpha;
+
+  void main(){
+    vec2 uv = gl_PointCoord - 0.5;
+    float d = length(uv);
+    float a = pow(smoothstep(0.5, 0.0, d), 2.0);
+    gl_FragColor = vec4(uColor, a * vAlpha);
+  }
+`;
+
+const swarm = new THREE.Points(swarmGeo, new THREE.ShaderMaterial({
+  uniforms: swarmUniforms,
+  vertexShader: SWARM_VERT,
+  fragmentShader: SWARM_FRAG,
+  transparent: true,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending,
+}));
+swarm.visible = false;
+scene.add(swarm);
+
 /* ---------- interaction state ---------- */
 let scroll = 0, targetScroll = 0;
 let mpx = window.innerWidth / 2, mpy = window.innerHeight / 2;
@@ -171,6 +258,11 @@ function smoothstep(a, b, x) {
   return x * x * (3 - 2 * x);
 }
 
+const raycaster = new THREE.Raycaster();
+const ndc = new THREE.Vector2();
+const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+const mouseWorld = new THREE.Vector3(0, 9999, 0);
+
 window.addEventListener('scroll', () => {
   const max = document.body.scrollHeight - window.innerHeight;
   targetScroll = max > 0 ? window.scrollY / max : 0;
@@ -178,6 +270,7 @@ window.addEventListener('scroll', () => {
 
 window.addEventListener('mousemove', (e) => {
   tmpx = e.clientX; tmpy = e.clientY;
+  swarm.visible = true;
   glow.style.opacity = '1';
 }, { passive: true });
 
@@ -186,6 +279,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
   uniforms.uPixelRatio.value = renderer.getPixelRatio();
+  swarmUniforms.uPixelRatio.value = renderer.getPixelRatio();
 });
 
 /* ---------- text reveals ---------- */
@@ -227,7 +321,18 @@ function animate() {
   camera.position.z = 9 - scroll * 4.0;
   camera.lookAt(0, 0, 0);
 
+  // world-space mouse → field-local (for repel) and swarm (world)
+  ndc.set(mx, my);
+  raycaster.setFromCamera(ndc, camera);
+  raycaster.ray.intersectPlane(plane, mouseWorld);
+
+  mouseLocal.copy(mouseWorld);
+  points.worldToLocal(mouseLocal);
+
+  swarmUniforms.uMouse.value.copy(mouseWorld);
+
   uniforms.uTime.value = t;
+  swarmUniforms.uTime.value = t;
   uniforms.uMix.value = smoothstep(0.34, 0.78, scroll);
 
   if (glow) glow.style.transform = `translate(${mpx}px, ${mpy}px) translate(-50%, -50%)`;
