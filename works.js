@@ -71,7 +71,7 @@
     "brand": "nanobanana+gpt+即梦",
     "type": "",
     "desc": "足于当代都市独立女性的审美内核，以「克制即高级」作为创作主旨，跳出浓艳彩妆的固有表达，将 GLAZE玫瑰金方管口红定义为气质载体。依托冷调裸棕的温润质感，联结模特干练清冷的人物形象，用具象的上唇妆造，外化现代女性从容内敛、自在舒展的精神格调，让口红从美妆单品，转化为诠释轻奢生活态度的视觉符号。",
-    "cover": "",
+    "cover": "assets/covers/lipstick.jpg",
     "video": "assets/videos/lipstick.mp4",
     "link": "",
     "prompt": "萨法的",
@@ -91,7 +91,7 @@
     "brand": "nanobanana+image+gpt+即梦",
     "type": "",
     "desc": "《NEON REBELS》构建了一个被超级财团完全掌控的未来都市。2089年，城市被数据、资本与人工智能统治，普通人失去了自由。隐藏于地下的反抗组织“Neon Rebels”试图摧毁财团建立的数字秩序。主角 RAVEN-X曾是财团最强义体实验体，在觉醒后脱离控制，成为地下反抗军领袖。她以机械义肢为武器，将电磁能量转化为毁灭性力量，在霓虹与暴雨交织的城市中发动反击。本作品以游戏概念宣传片的形式，完整呈现从启动界面、角色档案、技能展示、系统加载到实机战斗与任务结算的游戏体验流程，模拟AAA级赛博朋克动作游戏的视觉表达。",
-    "cover": "",
+    "cover": "assets/covers/game.jpg",
     "video": "assets/videos/game.mp4",
     "link": "",
     "prompt": "",
@@ -114,7 +114,7 @@
     "brand": "image2+gpt+即梦",
     "type": "",
     "desc": "",
-    "cover": "",
+    "cover": "assets/covers/chips.jpg",
     "video": "assets/videos/chips.mp4",
     "link": "",
     "prompt": "",
@@ -135,7 +135,7 @@
     "brand": "image2+gpt+即梦",
     "type": "",
     "desc": "",
-    "cover": "",
+    "cover": "assets/covers/fashion.jpg",
     "video": "assets/videos/fashion.mp4",
     "link": "",
     "prompt": "",
@@ -207,10 +207,10 @@
     }
 
     var media = '';
-    if (w.video) {
-      media = '<div class="work-cover has-play"><video muted playsinline preload="metadata"' + (w.cover ? ' poster="' + esc(w.cover) + '"' : '') + ' data-vsrc="' + esc(w.video) + '"></video><span class="play-badge">▶</span></div>';
-    } else if (w.cover) {
-      media = '<div class="work-cover"><img src="' + esc(w.cover) + '" alt="' + esc(w.title) + '" loading="lazy" /></div>';
+    if (w.cover) {
+      media = '<div class="work-cover' + (w.video ? ' has-play' : '') + '"><img src="' + esc(w.cover) + '" alt="' + esc(w.title) + '" loading="lazy" />' + (w.video ? '<span class="play-badge">▶</span>' : '') + '</div>';
+    } else if (w.video) {
+      media = '<div class="work-cover has-play"><video muted playsinline preload="metadata" data-vsrc="' + esc(w.video) + '"></video><span class="play-badge">▶</span></div>';
     }
 
     var meta = '<div class="work-meta">'
