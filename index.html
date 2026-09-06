@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ZOUWENSHENG — Brands, built for global markets</title>
-<meta name="description" content="ZOUWENSHENG — cross-border commerce: DTC storefronts, overseas social, influencer seeding, SEO/GEO, and AI-driven content." />
+<title>ZOUWENSHENG — AI 内容创作作品集</title>
+<meta name="description" content="ZOUWENSHENG — 文案创作流程 · 短视频脚本 · AI 提示词去 AI 化 · AI 视频分镜。从 prompt 到成品，每一步都可复制、可界定、可交付。" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Inter:wght@300;400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet" />
@@ -12,103 +12,255 @@
 </head>
 <body>
 
-<!-- WebGL canvas + atmosphere -->
+<!-- WebGL 背景 + 氛围层 -->
 <canvas id="webgl"></canvas>
 <div class="vignette"></div>
 <div class="grain"></div>
 <div class="cursor-glow"></div>
 
-<!-- nav -->
+<!-- 导航 -->
 <header class="nav">
   <a class="brand" href="#hero">ZOUWENSHENG<span>®</span></a>
   <div class="nav-links">
-    <a href="#manifesto">Approach</a>
-    <a href="#services">Services</a>
-    <a href="#cta">Contact</a>
+    <a href="#copy">文案</a>
+    <a href="#video">视频</a>
+    <a href="#deai">去AI化</a>
+    <a href="#prompts">提示词</a>
   </div>
-  <div class="nav-meta">CROSS-BORDER COMMERCE — 2026</div>
+  <div class="nav-meta">AI CONTENT STUDIO — 2026</div>
 </header>
 
-<!-- scroll progress -->
+<!-- 滚动进度 -->
 <div class="progress"><div class="progress-bar"></div></div>
 
 <main>
   <!-- hero -->
   <section class="section hero" id="hero">
-    <p class="eyebrow reveal" data-delay="0">ZOUWENSHENG · CROSS-BORDER COMMERCE</p>
-    <h1 class="display reveal" data-delay="100">Brands,<br />built for<br /><em>global</em> markets.</h1>
-    <p class="sub reveal" data-delay="260">DTC storefronts, overseas social, and AI-driven content — from product to global shelf.</p>
-    <p class="scroll-hint reveal" data-delay="460">SCROLL TO ENTER</p>
+    <p class="eyebrow reveal" data-delay="0">ZOUWENSHENG · AI 内容创作</p>
+    <h1 class="display reveal" data-delay="100">把 AI 写的内容，<br />写出 <em>人味</em>。</h1>
+    <p class="sub reveal" data-delay="260">文案创作流程 · 短视频脚本 · 提示词去 AI 化 · AI 视频分镜。从 prompt 到成品，每一步都可复制、可界定、可交付。</p>
+    <p class="scroll-hint reveal" data-delay="460">向下滚动 · SCROLL TO VIEW</p>
   </section>
 
-  <!-- manifesto -->
-  <section class="section statement" id="manifesto">
-    <div class="section-label reveal"><span>01</span> — APPROACH</div>
-    <p class="statement-text reveal" data-delay="120">I turn products<br />into brands<br />that <em>travel.</em></p>
-    <p class="statement-sub reveal" data-delay="280">The moment a product stops being a listing and becomes a brand — trusted across borders, time zones, and cultures.</p>
+  <!-- 01 文案创作 -->
+  <section class="section" id="copy">
+    <div class="section-label reveal"><span>01</span> — 文案创作 <span class="en">COPYWRITING</span></div>
+    <p class="statement-text reveal" data-delay="120">先有流程，<br />才有<em>稳定的输出</em>。</p>
+    <p class="statement-sub reveal" data-delay="280">不靠灵感靠方法。一条文案从需求到交付，走这 5 步，任何人都能复现同样的质量。</p>
+
+    <!-- 创作流程 5 步 -->
+    <div class="workflow">
+      <div class="step reveal" data-delay="0">
+        <div class="step-num">01</div>
+        <h4 class="step-title">需求拆解</h4>
+        <p class="step-desc">品牌 / 产品 / 人群 / 目标，锁定一句话核心卖点。</p>
+      </div>
+      <div class="step reveal" data-delay="80">
+        <div class="step-num">02</div>
+        <h4 class="step-title">结构搭建</h4>
+        <p class="step-desc">用框架搭骨架：钩子 → 痛点 → 方案 → 行动（AIDA / PAS）。</p>
+      </div>
+      <div class="step reveal" data-delay="160">
+        <div class="step-num">03</div>
+        <h4 class="step-title">AI 初稿</h4>
+        <p class="step-desc">喂品牌手册 + 参考案例，一次产出 3–5 版备选。</p>
+      </div>
+      <div class="step reveal" data-delay="240">
+        <div class="step-num">04</div>
+        <h4 class="step-title">去 AI 化</h4>
+        <p class="step-desc">降机械感、注入人话、补真实细节（见 03 节）。</p>
+      </div>
+      <div class="step reveal" data-delay="320">
+        <div class="step-num">05</div>
+        <h4 class="step-title">精修交付</h4>
+        <p class="step-desc">逐条过「界定规则」，校对后定稿。</p>
+      </div>
+    </div>
+
+    <!-- 文案作品 5 个预留位（数据在 works.js，自行编辑上传） -->
+    <div class="work-grid" id="copy-grid"></div>
   </section>
 
-  <!-- services -->
-  <section class="section services" id="services">
-    <div class="section-label reveal"><span>02</span> — WHAT I DO</div>
-    <div class="service-list">
-      <article class="service reveal" data-delay="0">
-        <div class="service-index">01</div>
-        <h3 class="service-name">DTC Storefronts</h3>
-        <p class="service-desc">Independent sites built to convert — storefront, checkout, and content that sells across borders.</p>
-        <div class="service-tag">SHOPIFY · 独立站</div>
-      </article>
-      <article class="service reveal" data-delay="80">
-        <div class="service-index">02</div>
-        <h3 class="service-name">Overseas Social</h3>
-        <p class="service-desc">Short-form video and social for TikTok &amp; Instagram, tuned per market and per audience.</p>
-        <div class="service-tag">TIKTOK · INSTAGRAM</div>
-      </article>
-      <article class="service reveal" data-delay="160">
-        <div class="service-index">03</div>
-        <h3 class="service-name">Influencer &amp; Seeding</h3>
-        <p class="service-desc">KOL reviews and community planting that build trust before the first click.</p>
-        <div class="service-tag">KOL · 种草</div>
-      </article>
-      <article class="service reveal" data-delay="240">
-        <div class="service-index">04</div>
-        <h3 class="service-name">SEO &amp; GEO</h3>
-        <p class="service-desc">Rank where buyers search — classic search plus ChatGPT and generative engines.</p>
-        <div class="service-tag">SEO · GEO</div>
-      </article>
-      <article class="service reveal" data-delay="320">
-        <div class="service-index">05</div>
-        <h3 class="service-name">Affiliate &amp; Deals</h3>
-        <p class="service-desc">Performance-based distribution through affiliate, deals and promo networks.</p>
-        <div class="service-tag">AFFILIATE · DEALS</div>
-      </article>
-      <article class="service reveal" data-delay="400">
-        <div class="service-index">06</div>
-        <h3 class="service-name">AI Content Workflow</h3>
-        <p class="service-desc">Batch production, on-brand, at speed — prompts, SOPs and sub-agent pipelines.</p>
-        <div class="service-tag">AI WORKFLOW</div>
-      </article>
+  <!-- 02 视频创作 -->
+  <section class="section" id="video">
+    <div class="section-label reveal"><span>02</span> — 视频创作 <span class="en">AI VIDEO</span></div>
+    <p class="statement-text reveal" data-delay="120">好视频，<br />先赢在<em>分镜</em>。</p>
+    <p class="statement-sub reveal" data-delay="280">每一条 AI 视频都从脚本和分镜开始：先写清每一秒的画面、台词、提示词，再生成，再剪辑。</p>
+
+    <!-- 脚本示例 -->
+    <div class="block-label reveal">脚本 · SCRIPT（示例）</div>
+    <div class="script-demo reveal" data-delay="120">
+      <div class="script-line"><span>0–2s</span><em>（无台词，仅音效：低频脉冲）</em></div>
+      <div class="script-line"><span>2–4s</span><em>旁白：降噪一开，世界只剩你的歌。</em></div>
+      <div class="script-line"><span>4–6s</span><em>音效：磁吸合盖「咔」一声。</em></div>
+      <div class="script-line"><span>6–8s</span><em>旁白：通勤、健身、开会，一副就够。</em></div>
+      <div class="script-line"><span>8–10s</span><em>旁白：点击下单，把它带回家。</em></div>
+    </div>
+
+    <!-- 分镜示例 -->
+    <div class="block-label reveal">分镜 · STORYBOARD（示例，替换成你的真实作品）</div>
+    <div class="storyboard">
+      <div class="sb-frame reveal" data-delay="0">
+        <div class="sb-top"><span class="sb-no">镜 01</span><span class="sb-time">0–2s</span></div>
+        <p class="sb-desc">耳机从纯黑背景中升起，一道光扫过金属面。</p>
+        <p class="sb-prompt">product reveal, wireless earbuds floating, studio black background, rim light, 4k, cinematic</p>
+        <div class="sb-move">运镜：推近</div>
+      </div>
+      <div class="sb-frame reveal" data-delay="60">
+        <div class="sb-top"><span class="sb-no">镜 02</span><span class="sb-time">2–4s</span></div>
+        <p class="sb-desc">一只手拿起耳机，指尖轻点，指示灯亮起。</p>
+        <p class="sb-prompt">close-up hand picking up earbuds, finger tap, led light on, shallow depth of field</p>
+        <div class="sb-move">运镜：固定</div>
+      </div>
+      <div class="sb-frame reveal" data-delay="120">
+        <div class="sb-top"><span class="sb-no">镜 03</span><span class="sb-time">4–6s</span></div>
+        <p class="sb-desc">耳机入盒，磁吸合盖，画面带轻微震动。</p>
+        <p class="sb-prompt">earbuds drop into charging case, magnetic close, macro shot, sound wave overlay</p>
+        <div class="sb-move">运镜：俯拍</div>
+      </div>
+      <div class="sb-frame reveal" data-delay="180">
+        <div class="sb-top"><span class="sb-no">镜 04</span><span class="sb-time">6–8s</span></div>
+        <p class="sb-desc">通勤路上戴耳机，背景人流虚化。</p>
+        <p class="sb-prompt">person wearing earbuds on commute, blurred crowd background, golden hour, lifestyle</p>
+        <div class="sb-move">运镜：跟拍</div>
+      </div>
+      <div class="sb-frame reveal" data-delay="240">
+        <div class="sb-top"><span class="sb-no">镜 05</span><span class="sb-time">8–10s</span></div>
+        <p class="sb-desc">产品定格 + 品牌名 + 行动引导「点击购买」。</p>
+        <p class="sb-prompt">product hero shot, brand logo overlay, clean studio background</p>
+        <div class="sb-move">运镜：定格</div>
+      </div>
+    </div>
+
+    <!-- 视频作品 5 个预留位（数据在 works.js，自行编辑上传） -->
+    <div class="work-grid" id="video-grid"></div>
+  </section>
+
+  <!-- 03 去 AI 化 -->
+  <section class="section" id="deai">
+    <div class="section-label reveal"><span>03</span> — 去 AI 化 <span class="en">DE-AI</span></div>
+    <p class="statement-text reveal" data-delay="120">AI 写得对，<br />但 <em>没人味</em>。</p>
+    <p class="statement-sub reveal" data-delay="280">去 AI 化不是润色，是一套标准动作：把「AI 味」的句子，改成「人说的话」。</p>
+
+    <div class="workflow">
+      <div class="step reveal" data-delay="0">
+        <div class="step-num">01</div>
+        <h4 class="step-title">降浓度</h4>
+        <p class="step-desc">删掉「首先 / 其次 / 总而言之」等高频词，砍掉排比和空话。</p>
+      </div>
+      <div class="step reveal" data-delay="80">
+        <div class="step-num">02</div>
+        <h4 class="step-title">注入人话</h4>
+        <p class="step-desc">加口语、语气词、具体数字、第一人称，把陈述改成说话。</p>
+      </div>
+      <div class="step reveal" data-delay="160">
+        <div class="step-num">03</div>
+        <h4 class="step-title">补细节</h4>
+        <p class="step-desc">用一个真实场景或具体动作，替换掉大而空的形容词。</p>
+      </div>
+      <div class="step reveal" data-delay="240">
+        <div class="step-num">04</div>
+        <h4 class="step-title">过规则</h4>
+        <p class="step-desc">用「界定规则」（见 04 节）逐条自查，不达标退回重写。</p>
+      </div>
+    </div>
+
+    <!-- 前后对照 -->
+    <div class="block-label reveal">前后对照 · BEFORE / AFTER</div>
+    <div class="ba-grid">
+      <div class="ba-panel ba-before reveal" data-delay="0">
+        <div class="ba-label">BEFORE · AI 味</div>
+        <p class="ba-text">我们的产品采用先进技术，致力于为用户提供卓越体验，帮助您提升效率、实现价值最大化。</p>
+      </div>
+      <div class="ba-panel ba-after reveal" data-delay="120">
+        <div class="ba-label">AFTER · 人话</div>
+        <p class="ba-text">这工具就干一件事：把你 3 小时的活，压到 20 分钟。</p>
+      </div>
     </div>
   </section>
 
-  <!-- craft -->
-  <section class="section craft" id="craft">
-    <div class="section-label reveal"><span>03</span> — CRAFT</div>
-    <p class="statement-text reveal" data-delay="120">Content is made,<br />not <em>generated.</em></p>
-    <p class="statement-sub reveal" data-delay="280">Every asset is briefed, produced, and reviewed — then scaled with AI, never at the cost of taste.</p>
+  <!-- 04 提示词 & 界定规则 -->
+  <section class="section" id="prompts">
+    <div class="section-label reveal"><span>04</span> — 提示词 &amp; 界定规则 <span class="en">PROMPTS × RULES</span></div>
+    <p class="statement-text reveal" data-delay="120">好提示词 + <em>硬规则</em>，<br />才有稳定的成品。</p>
+    <p class="statement-sub reveal" data-delay="280">下面是常用的提示词模板和界定规则，作品里每一句都经得起这两样东西的检查。</p>
+
+    <!-- 提示词模板 -->
+    <div class="prompt-list">
+      <div class="prompt-block reveal" data-delay="0">
+        <div class="prompt-title">01 · 文案初稿 PROMPT</div>
+        <pre>你是资深文案。基于以下信息，为「{品牌}」的「{产品}」写 3 版{类型}文案，目标人群是{人群}，投放渠道是{渠道}。
+
+品牌调性：{一句话调性}
+核心卖点：{卖点}
+禁用词：{禁用词表}
+
+要求：
+· 每条用「钩子 → 痛点 → 方案 → 行动」结构
+· 语气口语化，不出现空话套话
+· 每条控制在 80 字以内</pre>
+      </div>
+      <div class="prompt-block reveal" data-delay="80">
+        <div class="prompt-title">02 · 去 AI 化 PROMPT</div>
+        <pre>下面这段文案 AI 味太重，帮我改成「像人写的」。
+
+原文：
+{粘贴原文}
+
+要求：
+· 删掉「首先 / 其次 / 总而言之」等连接词和排比
+· 把抽象形容词换成具体数字或场景
+· 加一点口语和真实语气，允许第一人称
+· 保持原意和卖点不变，长度尽量接近</pre>
+      </div>
+      <div class="prompt-block reveal" data-delay="160">
+        <div class="prompt-title">03 · 视频脚本 PROMPT</div>
+        <pre>为「{品牌}」的「{产品}」写一条{时长}的{平台}短视频脚本。
+
+输出格式（逐行）：
+镜头号 / 时长 / 画面 / 台词 / 音效
+
+要求：
+· 前 2 秒必须有强钩子
+· 结尾有明确的行动引导
+· 台词口语化，每句不超过 15 字</pre>
+      </div>
+      <div class="prompt-block reveal" data-delay="240">
+        <div class="prompt-title">04 · 分镜 PROMPT</div>
+        <pre>把下面这段脚本转成 AI 视频分镜表。
+
+脚本：
+{粘贴脚本}
+
+每格输出：
+镜头号 / 时长 / 画面描述（英文，供生图用）/ 运镜 / 提示词
+
+画面风格：{写实 / 动画 / 产品特写}</pre>
+      </div>
+    </div>
+
+    <!-- 界定规则 -->
+    <div class="block-label reveal">界定规则 · RULES</div>
+    <div class="rule-list">
+      <div class="rule reveal" data-delay="0"><span class="rule-num">01</span><p class="rule-text">一句话不超过两个形容词。</p></div>
+      <div class="rule reveal" data-delay="60"><span class="rule-num">02</span><p class="rule-text">禁用词：赋能、抓手、闭环、底层逻辑、颗粒度、深度触达、全链路。</p></div>
+      <div class="rule reveal" data-delay="120"><span class="rule-num">03</span><p class="rule-text">每段至少有一个具体数字或一个具体场景。</p></div>
+      <div class="rule reveal" data-delay="180"><span class="rule-num">04</span><p class="rule-text">用主动语态，主语是人，不是「产品」。</p></div>
+      <div class="rule reveal" data-delay="240"><span class="rule-num">05</span><p class="rule-text">读到第三句还没看到卖点，重写。</p></div>
+    </div>
   </section>
 
-  <!-- cta -->
-  <section class="section cta" id="cta">
-    <h2 class="cta-title reveal">Let's build<br />your next<br /><em>market.</em></h2>
+  <!-- 联系 -->
+  <section class="section cta" id="contact">
+    <h2 class="cta-title reveal">有项目？<br />一起<em>聊聊</em>。</h2>
     <form class="cta-form reveal" data-delay="160" onsubmit="return false;">
       <input type="email" placeholder="your@email.com" aria-label="Email" />
-      <button type="submit">Start a project</button>
+      <button type="submit">发消息</button>
     </form>
     <footer class="footer reveal" data-delay="320">
-      <span>© 2026 ZOUWENSHENG</span>
+      <span>© 2026 ZOUWENSHENG · AI CONTENT STUDIO</span>
       <div class="socials">
-        <a href="#">Instagram</a><a href="#">X</a><a href="#">TikTok</a>
+        <a href="#">微信</a><a href="#">小红书</a><a href="#">抖音</a>
       </div>
     </footer>
   </section>
@@ -121,6 +273,8 @@
   }
 }
 </script>
+<script src="works.js"></script>
+<script src="editor.js"></script>
 <script type="module" src="main.js"></script>
 </body>
 </html>
