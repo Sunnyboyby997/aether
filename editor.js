@@ -62,6 +62,7 @@
     +   '<button class="tb-btn" id="tbAddCopy">＋ 文案</button>'
     +   '<button class="tb-btn" id="tbAddVideo">＋ 视频</button>'
     +   '<button class="tb-btn" id="tbExport">导出 works.js</button>'
+    +   '<button class="tb-btn" id="tbExportVideo">⬇ 导出本地视频</button>'
     +   '<button class="tb-btn" id="tbReset">恢复默认</button>'
     +   '<button class="tb-btn tb-exit" id="tbExit">退出编辑</button>'
     + '</div>'
@@ -84,6 +85,7 @@
     +       '<div class="video-ctrl">'
     +         '<input id="f-video-src" placeholder="视频地址：https://… 或选本地文件" />'
     +         '<button type="button" class="tb-btn" id="pickVideo">选本地文件</button>'
+    +         '<button type="button" class="tb-btn" id="exportThisVideo" style="display:none">下载此视频</button>'
     +         '<input type="file" id="f-video-file" accept="video/*" style="display:none" />'
     +       '</div>'
     +       '<p class="hint" id="videoHint">本地视频会存进浏览器（刷新不丢），保存后即可播放。发布时需改用平台链接或把文件放进 assets/。</p>'
@@ -249,6 +251,8 @@
     renderShotsPreview();
     document.getElementById('storyFields').style.display = (kind === 'video') ? '' : 'none';
     document.getElementById('f-video-src').value = (item && !item.empty) ? item.video : '';
+    var _vsrc = document.getElementById('f-video-src').value || '';
+    document.getElementById('exportThisVideo').style.display = (_vsrc.indexOf('idb://') === 0) ? '' : 'none';
     videoHint.textContent = '本地视频会存进浏览器（刷新不丢），保存后即可播放。发布时需改用平台链接或把文件放进 assets/。';
     currentCover = (item && !item.empty) ? item.cover : '';
     coverInput.value = '';
@@ -545,6 +549,44 @@
     }).catch(function () {
       alert('导出失败：请通过 http://localhost:8000 访问本页（不要用 file:// 双击打开）。');
     });
+  });
+
+  /* ---------- 导出本地视频（把浏览器里的视频下载成 mp4） ---------- */
+  function sanitizeName(s) {
+    return String(s || '').replace(/[\\/:*?"<>|]/g, '_').trim() || 'video';
+  }
+  function downloadVideo(item) {
+    if (!item || !item.video || item.video.indexOf('idb://') !== 0) return;
+    var key = item.video.slice(6);
+    idbGet(key).then(function (blob) {
+      if (!blob) { alert('未找到视频「' + (item.title || item.no) + '」的本地文件（可能已被清理）。'); return; }
+      var ext = '.mp4';
+      if (blob.name && /\.[a-z0-9]{2,5}$/i.test(blob.name)) ext = blob.name.slice(blob.name.lastIndexOf('.'));
+      var u = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = u;
+      a.download = sanitizeName(item.title || ('video_' + item.no)) + ext;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(u); }, 5000);
+    }).catch(function () { alert('读取视频失败，请重试。'); });
+  }
+  document.getElementById('tbExportVideo').addEventListener('click', function () {
+    var data = window.works.getData();
+    var items = data.copy.concat(data.video).filter(function (w) {
+      return w && !w.empty && w.video && w.video.indexOf('idb://') === 0;
+    });
+    if (!items.length) { alert('没有可导出的本地视频。'); return; }
+    alert('即将下载 ' + items.length + ' 个本地视频。\n如浏览器弹出「允许下载多个文件」，请点允许。');
+    items.forEach(function (w, i) {
+      setTimeout(function () { downloadVideo(w); }, i * 1500);
+    });
+  });
+  document.getElementById('exportThisVideo').addEventListener('click', function () {
+    var v = document.getElementById('f-video-src').value.trim();
+    if (v.indexOf('idb://') !== 0) { alert('当前不是本地视频，无需下载。'); return; }
+    downloadVideo({ video: v, title: document.getElementById('f-title').value || null, no: '' });
   });
 
   /* ---------- Esc 关闭弹窗 ---------- */
