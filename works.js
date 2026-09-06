@@ -208,7 +208,7 @@
 
     var media = '';
     if (w.video) {
-      media = '<div class="work-cover has-play"><video muted playsinline preload="metadata" data-vsrc="' + esc(w.video) + '"></video><span class="play-badge">▶</span></div>';
+      media = '<div class="work-cover has-play"><video muted playsinline preload="metadata"' + (w.cover ? ' poster="' + esc(w.cover) + '"' : '') + ' data-vsrc="' + esc(w.video) + '"></video><span class="play-badge">▶</span></div>';
     } else if (w.cover) {
       media = '<div class="work-cover"><img src="' + esc(w.cover) + '" alt="' + esc(w.title) + '" loading="lazy" /></div>';
     }
