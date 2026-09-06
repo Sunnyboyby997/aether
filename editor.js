@@ -30,24 +30,26 @@
       req.onerror = function (e) { idbError = e.target.error; reject(e.target.error); };
     });
   }
-  openDB();
+  var dbPromise = openDB();
 
   function idbPut(key, blob) {
-    return new Promise(function (resolve, reject) {
-      if (!idbReady) { reject(new Error('idb not ready')); return; }
-      var tx = db.transaction(DB_STORE, 'readwrite');
-      tx.objectStore(DB_STORE).put(blob, key);
-      tx.oncomplete = function () { resolve(); };
-      tx.onerror = function () { reject(tx.error); };
+    return dbPromise.then(function () {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(DB_STORE, 'readwrite');
+        tx.objectStore(DB_STORE).put(blob, key);
+        tx.oncomplete = function () { resolve(); };
+        tx.onerror = function () { reject(tx.error); };
+      });
     });
   }
   function idbGet(key) {
-    return new Promise(function (resolve, reject) {
-      if (!idbReady) { reject(new Error('idb not ready')); return; }
-      var tx = db.transaction(DB_STORE, 'readonly');
-      var rq = tx.objectStore(DB_STORE).get(key);
-      rq.onsuccess = function () { resolve(rq.result || null); };
-      rq.onerror = function () { reject(rq.error); };
+    return dbPromise.then(function () {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(DB_STORE, 'readonly');
+        var rq = tx.objectStore(DB_STORE).get(key);
+        rq.onsuccess = function () { resolve(rq.result || null); };
+        rq.onerror = function () { reject(rq.error); };
+      });
     });
   }
 
